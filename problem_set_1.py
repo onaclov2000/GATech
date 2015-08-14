@@ -51,23 +51,22 @@ def localize(colors,measurements,motions,sensor_right,p_move):
     # >>> Insert your code here <<<
     for i in range(len(motions)):
         p = move(p, motions[i])
-        p = sense(p,measurements[i])
+        p = sense(p,measurements[i], sensor_right)
+        
     return p
 
-def sense(p, Z):
+def sense(p, Z, sensor_right):
     column_sum = 0.0
     row_sum = 0.0
     for i in range(len(p)):
         for x in range(len(p[i])):
            if Z == colors[i][x]:
-                p[i][x] = p[i][x] * 0.7
+                p[i][x] = p[i][x] * sensor_right
            else:
-                p[i][x] = p[i][x] * (1-0.7)
+                p[i][x] = p[i][x] * (1.0-sensor_right)
            row_sum = row_sum + p[i][x]
-        print row_sum
         column_sum = column_sum + row_sum
         row_sum = 0.0
-    print column_sum
     for i in range(len(p)):
         for x in range(len(p[i])):
             p[i][x] = p[i][x] / column_sum
