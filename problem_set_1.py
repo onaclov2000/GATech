@@ -49,12 +49,7 @@ def localize(colors,measurements,motions,sensor_right,p_move):
     p = [[pinit for row in range(len(colors[0]))] for col in range(len(colors))]
 #     >>> Insert your code here <<<
     for i in range(len(motions)):
-        p = move(p, motions[i])
-        #print "move"
-        #show(p)
-        #print "/move"
-        #print ""
-        #print ""
+        p = move(p, motions[i], p_move)
         p = sense(p,measurements[i], sensor_right)
     return p
 
@@ -76,11 +71,12 @@ def sense(p, Z, sensor_right):
     
     return p
 
-def move(p, U):
+def move(p, U, p_move):
+    sum = 0.0
     #  [0,1] - right
     if U == [0,1]:
        for i in range(len(p)):
-          p[i] = p[i][1:] + p[i][:1]
+          p[i] = p[i][-1:] + p[i][:-1]  
 
     #  [1,0] - down
     if U == [1,0]:
@@ -90,9 +86,15 @@ def move(p, U):
         p = p[1:] + p[:1]
     #  [0,-1] - left
     if U == [0,-1]:
-        for i in range(len(p)):
-            p[i] = p[i][-1:] + p[i][:-1]       
-       
+       for i in range(len(p)):
+          p[i] = p[i][1:] + p[i][:1]
+            
+#    if U == [0,0]:
+#        return p
+#    else:
+#       for i in range(len(p)):
+#          for x in range(len(p[i])):
+#             p[i][x] = p[i][x] * p_move  
     return p
 
 
@@ -115,8 +117,16 @@ colors = [['R','G','G','R','R'],
 measurements = ['G','G','G','G','G']
 motions = [[0,0],[0,1],[1,0],[1,0],[0,1]]
 p = localize(colors,measurements,motions,sensor_right = 0.7, p_move = 0.8)
-show(p) # displays your answer
-
+correct_answer = ([0.01105, 0.02464, 0.06799, 0.04472, 0.02465],
+  [0.00715, 0.01017, 0.08696, 0.07988, 0.00935],
+  [0.00739, 0.00894, 0.11272, 0.35350, 0.04065],
+  [0.00910, 0.00715, 0.01434, 0.04313, 0.03642])
+if p == correct_answer:
+    print "passed test 0"
+else:
+    print "Failed Test 0"
+    show(p)
+    show(correct_answer)
 
 # test 1
 colors = [['G', 'G', 'G'],
@@ -254,7 +264,7 @@ else:
     show(p)
     show(correct_answer)
 
-# I suspect it's the p_move that I am not accounting for.
+# I suspect it's the p_move that I am not accounting for, just not sure how to figure it out.
 # fail 0 .7,.8
 # pass 1 1,1
 # pass 2 1,1
