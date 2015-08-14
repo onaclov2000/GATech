@@ -248,8 +248,18 @@ correct_answer = (
      [0.0, 0.33333333, 0.66666666],
      [0.0, 0.0, 0.0]])
 if p == correct_answer:
-    print "passed test 6"
+    print "passed test 7"
 else:
-    print "Failed Test 6"
+    print "Failed Test 7"
     show(p)
     show(correct_answer)
+
+# I suspect it's the p_move that I am not accounting for.
+# fail 0 .7,.8
+# pass 1 1,1
+# pass 2 1,1
+# pass 3 .8,1
+# pass 4 .8,1
+# pass 5 1,1
+# fail 6 .8,.5
+# fail 7 1,.5
