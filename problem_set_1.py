@@ -72,43 +72,40 @@ def sense(p, Z, sensor_right):
     return p
 
 def move(p, U, p_move):
-
+    q = []
     p_stay = 1.0 - p_move
     #  [0,1] - right
-    if U == [0,1]:
+    if U == [0,1]: 
        for i in range(len(p)):
-          p[i] = p[i][-1:] + p[i][:-1] 
-       for i in range(len(p)):
+          s = []
           for x in range(len(p[i])):
-             p[i][x] = p[i][x - U[1]] * p_move + (p[i][(x - U[1]-1) % len(p[i])] * p_stay)
+             s.append(p[i][x] * p_move + (p[i][(x-U[1]) % (len(p[i])-1)] * p_stay))
+          q.append(s)
+       return q
     #  [1,0] - down
     if U == [1,0]:
-       p = p[-1:] + p[:-1]
        for i in range(len(p)):
+          s = []
           for x in range(len(p[i])):
-             p[i][x] = p[i - U[1]][x] * p_move + (p[(i - U[1]-1) % len(p)][x] * p_stay)
+             s.append(p[i][x] * p_move + (p[i-U[0]][(x) % (len(p)-1)] * p_stay))
+          q.append(s)
+       return q
     #  [-1,0] - up
     if U == [-1,0]:
-        p = p[1:] + p[:1]
-        for i in range(len(p)):
-           for x in range(len(p[i])):
-              p[i][x] = p[i - U[1]][x] * p_move + (p[(i - U[1]-1) % len(p)][x] * p_stay)
+       for i in range(len(p)):
+          s = []
+          for x in range(len(p[i])):
+             s.append(p[i][x] * p_move + (p[i-U[0]][(x) % (len(p)-1)] * p_stay))
+          q.append(s)
+       return q
     #  [0,-1] - left
     if U == [0,-1]:
        for i in range(len(p)):
-          p[i] = p[i][1:] + p[i][:1]
-       for i in range(len(p)):
+          s = []
           for x in range(len(p[i])):
-             p[i][x] = p[i][x - U[1]] * p_move + (p[i][(x - U[1]-1) % len(p[i])] * p_stay)
-    # No movement
-    if U == [0,0]:
-       for i in range(len(p)):
-          for x in range(len(p[i])):
-             p[i][x] = p[i][x - U[1]] * p_move + (p[i][(x - U[1]-1) % len(p[i])] * p_stay)
-#    for i in range(len(p)):
-#       for x in range(len(p[i])):
-#          p[i][x] = p[i][x] * p_move + (p[i][(x-1) % len(p[i])] * p_stay)
-                                             
+             s.append(p[i][x] * p_move + (p[i][(x-U[1]) % (len(p[i])-1)] * p_stay))
+          q.append(s)
+       return q
     return p
 
 
@@ -277,13 +274,14 @@ else:
     print "Failed Test 7"
     show(p)
     show(correct_answer)
+    
+    
 # Started Implementing inexact Motion for the move, but seems to be failing    
-
 # fail 0 .7,.8
 # pass 1 1,1
 # pass 2 1,1
 # pass 3 .8,1
 # fail 4 .8,1 // This is new since I implemented my move command :S
 # fail 5 1,1 // This is new since I implemented my move command :S
-# fail 6 .8,.5
-# fail 7 1,.5
+# pass 6 .8,.5
+# pass 7 1,.5
