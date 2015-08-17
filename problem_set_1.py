@@ -50,36 +50,46 @@ def localize(colors,measurements,motions,sensor_right,p_move):
 #     >>> Insert your code here <<<
     for i in range(len(motions)):
         p = move(p, motions[i], p_move)
+        #print "move " + str(motions[i])
+        #show(p)
         p = sense(p,measurements[i], sensor_right)
+        #print "sense " + str(measurements[i])
+        #show(p)
+        
     return p
 
 def sense(p, Z, sensor_right):
     column_sum = 0.0
     row_sum = 0.0
+    sensor_wrong = 1.0 - sensor_right
+    q = []
     for i in range(len(p)):
+        s = []
+        row_sum = 0.0
         for x in range(len(p[i])):
            if Z == colors[i][x]:
-                p[i][x] = p[i][x] * sensor_right
+              s.append(p[i][x] * sensor_right)
            else:
-                p[i][x] = p[i][x] * (1.0-sensor_right)
-           row_sum = row_sum + p[i][x]
+              s.append(p[i][x] * sensor_wrong)
+        row_sum = sum(s)
         column_sum = column_sum + row_sum
-        row_sum = 0.0
-    for i in range(len(p)):
-        for x in range(len(p[i])):
-            p[i][x] = p[i][x] / column_sum
-    
-    return p
+        q.append(s)
+    for i in range(len(q)):
+        for x in range(len(q[i])):
+            q[i][x] = q[i][x] / column_sum
+    return q
 
 def move(p, U, p_move):
     q = []
     p_stay = 1.0 - p_move
     #  [0,1] - right
-    if U == [0,1]: 
+    if U == [0,1]:
        for i in range(len(p)):
           s = []
           for x in range(len(p[i])):
-             s.append(p[i][x] * p_move + (p[i][(x-U[1]) % (len(p[i])-1)] * p_stay))
+            tmp = p_move * p[i][x-U[1] % len(p[i])]
+            tmp = tmp + p_stay * p[i][x % len(p[i])]
+            s.append(tmp)
           q.append(s)
        return q
     #  [1,0] - down
@@ -87,7 +97,15 @@ def move(p, U, p_move):
        for i in range(len(p)):
           s = []
           for x in range(len(p[i])):
-             s.append(p[i][x] * p_move + (p[i-U[0]][(x) % (len(p)-1)] * p_stay))
+             print "Previous Val: " + str(p[i-U[1] % len(p)][x]) 
+             tmp = p_move * p[i-U[1] % len(p)][x]
+             print "tmp: " + str(tmp)
+             print "Current Val: " + str(p[i  % len(p)][x])
+             tmp = tmp + p_stay * p[i  % len(p)][x]
+             print "tmp: " + str(tmp)
+             
+             s.append(tmp)
+             #s.append(p[i][x] * p_move + (p[(i-U[0]) % len(p)][x] * p_stay))
           q.append(s)
        return q
     #  [-1,0] - up
@@ -95,7 +113,7 @@ def move(p, U, p_move):
        for i in range(len(p)):
           s = []
           for x in range(len(p[i])):
-             s.append(p[i][x] * p_move + (p[i-U[0]][(x) % (len(p)-1)] * p_stay))
+             s.append(p[i][x] * p_move + (p[(i+U[0]) % (len(p))][x] * p_stay))
           q.append(s)
        return q
     #  [0,-1] - left
@@ -103,7 +121,7 @@ def move(p, U, p_move):
        for i in range(len(p)):
           s = []
           for x in range(len(p[i])):
-             s.append(p[i][x] * p_move + (p[i][(x-U[1]) % (len(p[i])-1)] * p_stay))
+             s.append(p[i][x] * p_move + (p[i][(x-U[1]) % (len(p[i]))] * p_stay))
           q.append(s)
        return q
     return p
@@ -277,11 +295,11 @@ else:
     
     
 # Started Implementing inexact Motion for the move, but seems to be failing    
-# fail 0 .7,.8
+# fail 0 .7,.8 // I think "down" is not working correctly
 # pass 1 1,1
 # pass 2 1,1
 # pass 3 .8,1
-# fail 4 .8,1 // This is new since I implemented my move command :S
-# fail 5 1,1 // This is new since I implemented my move command :S
+# pass 4 .8,1
+# pass 5 1,1
 # pass 6 .8,.5
 # pass 7 1,.5
