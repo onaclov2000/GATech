@@ -73,8 +73,9 @@ class Trainer():
 
 def main():
     classes = ['show','commercial',]
-    trainPaths = ['./videofolder/train/show','./videofolder/train/commercial' ]
-    testPaths = ['./videofolder/test/show','./videofolder/test/commercial']
+    # path for video folder is on my server
+    trainPaths = ['../videofolder/train/show','../videofolder/train/commercial' ]
+    testPaths = ['../videofolder/test/show','../videofolder/test/commercial']
     print "main"
     trainer = Trainer(classes,trainPaths, testPaths)
     print "Class Made"
