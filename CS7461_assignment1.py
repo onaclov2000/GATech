@@ -53,7 +53,7 @@ class Trainer():
         count = 0
         for classifier in self.classifiers:
             print str(datetime.now()) + " Start-- " + str(classifier)
-            classifier.train(self.trainPaths,self.classes,verbose=True, savedata="train_results_" + str(count) + ".txt")
+            classifier.train(self.trainPaths,self.classes,verbose=True, savedata="train_results_" + str(type(classifier).__name__) + datetime.now().strftime("%Y%m%d-%H%M%S") + ".tab")
             print str(datetime.now()) + " End-- " + str(classifier)
             count = count + 1
             print classifier.test(self.testPaths,self.classes,verbose=False)
