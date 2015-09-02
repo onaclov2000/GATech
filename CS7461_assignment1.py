@@ -73,8 +73,8 @@ class Trainer():
 
 def main():
     classes = ['show','commercial',]
-    trainPaths = ['/media/sf_machine_learning/videofolder/train/show','/media/sf_machine_learning/videofolder/train/commercial' ]
-    testPaths = ['/media/sf_machine_learning/videofolder/test/show','/media/sf_machine_learning/videofolder/test/commercial']
+    trainPaths = ['./videofolder/train/show','./videofolder/train/commercial' ]
+    testPaths = ['./videofolder/test/show','./videofolder/test/commercial']
     print "main"
     trainer = Trainer(classes,trainPaths, testPaths)
     print "Class Made"
