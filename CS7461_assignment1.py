@@ -26,24 +26,12 @@ class Trainer():
         'coef':None,        #coef for Poly/Sigmoid defaults to 0
         'gamma':None,       #kernel param for poly/rbf/sigma - default is 1/#samples       
         }
-        svm = SVMClassifier(extractors, properties=mSVMProperties)
-        #svm = SVMClassifier(extractors, properties)
         # There are a bunch of options to try out.
         tree = TreeClassifier(extractors)
         bagged = TreeClassifier(extractors, flavor='Bagged')
         boosted = TreeClassifier(extractors, flavor='Boosted')
         forest = TreeClassifier(extractors, flavor='Forest')
-        bayes = NaiveBayesClassifier(extractors)
-        onenn = KNNClassifier(extractors)
-        twonn = KNNClassifier(extractors, k=2)
-        threenn = KNNClassifier(extractors, k=4)
-        # Oddly the 3 KNN classifiers below have some kind of erro in the implementation I chose.
-        #twonn_dist_Euclidean = KNNClassifier(extractors, k=2, dist='Euclidean')
-        #twonn_dist_Manhattan = KNNClassifier(extractors, k=2, dist='Manhattan')
-        #twonn_dist_Hamming = KNNClassifier(extractors, k=2, dist='Hamming')
-        #return [twonn_dist_Hamming]
-        #return [svm, tree]
-        return [svm,tree, bagged, boosted, forest,bayes,onenn, twonn, threenn]
+        return [tree, bagged, boosted, forest]
 
     def train(self):
         self.classifiers = self.getClassifiers(self.getExtractors())
