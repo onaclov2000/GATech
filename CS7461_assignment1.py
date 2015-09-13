@@ -11,7 +11,7 @@ class Trainer():
     def getExtractors(self):
         hhfe = HueHistogramFeatureExtractor(5) #10
         ehfe = EdgeHistogramFeatureExtractor(5) #10
-        haarfe = HaarLikeFeatureExtractor(fname='./SimpleCV/SimpleCV/Features/haar.txt')
+        haarfe = HaarLikeFeatureExtractor(fname='/SimpleCV-develop/SimpleCV/Features/haar.txt')
         return [hhfe,ehfe,haarfe]
 
     def getClassifiers(self,extractors):
