@@ -17,15 +17,6 @@ class Trainer():
         return [hhfe,ehfe]#,haarfe]
 
     def getClassifiers(self,extractors):
-        mSVMProperties = {
-        'KernelType':'RBF', #default is a RBF Kernel
-        'SVMType':'C',     #default is C 
-        'nu':None,          # NU for SVM NU
-        'c':None,           #C for SVM C - the slack variable
-        'degree':None,      #degree for poly kernels - defaults to 3
-        'coef':None,        #coef for Poly/Sigmoid defaults to 0
-        'gamma':None,       #kernel param for poly/rbf/sigma - default is 1/#samples       
-        }
         nn = NeuralNetworkClassifier(extractors)
         return [nn]
 
