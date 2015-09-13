@@ -17,8 +17,8 @@ class Trainer():
         return [hhfe,ehfe]#,haarfe]
 
     def getClassifiers(self,extractors):
-        nn = NeuralNetworkClassifier(extractors)
-        return [nn]
+        classifier = SVMClassifier(extractors)
+        return [classifier]
 
     def train(self):
         self.classifiers = self.getClassifiers(self.getExtractors())
