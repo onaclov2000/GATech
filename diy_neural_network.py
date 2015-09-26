@@ -153,9 +153,9 @@ hc_best_weights_ever = randomized_hill_climb(weight_training, [X,y])
 
 print hc_best_weights_ever[1] # number of iterations to find this result
 print hc_best_weights_ever[2] # best result found (if we exit before count interrupts it should be at or over .85)
-plt.plot(hc_best_weights_ever[3])
-plt.ylabel('some numbers')
-plt.show()
+#plt.plot(hc_best_weights_ever[3])
+#plt.ylabel('some numbers')
+#plt.show()
 print test([I,O], weights=hc_best_weights_ever[0])[2]
 #print test([I[1400],O[1400]], weights=sa_best_weights_ever)
 #print test([I[1400],O[1400]], weights=ga_best_weights_ever)
