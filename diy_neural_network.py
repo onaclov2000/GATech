@@ -1,7 +1,8 @@
 import numpy as np
 from numpy import genfromtxt
-from collections import Counter
 
+# thanks to this site for the basis of the code
+#http://iamtrask.github.io/2015/07/12/basic-python-network/
 # commercial = 0
 # show = 1
 # my_data[1:] excludes the header
@@ -72,6 +73,7 @@ def test(data, weights):
 	
 
 # [input,output]
+# the paths here are clearly not going to work for an average user, gotta go ahead and figure out your own training set :)
 [X,y] = get_data_set('C:/Users/tyson/Downloads/Curious_George Training and Test/Curious_George Training and Test/6_attributes_csv/Curious_George_train_features_10_percent.csv')
 [I,O] = get_data_set('C:/Users/tyson/Downloads/Curious_George Training and Test/Curious_George Training and Test/6_attributes_csv/Curious_George_test_features.csv')
 
@@ -84,14 +86,6 @@ np.random.seed(1)
 # initialize weights randomly with mean 0
 
 syn0 = 2*np.random.random((5,1)) - 1
-
-# These are the weights, this needs to be translated to some binary form likely.
-#syn0 = []
-#syn0 += [[1.0] * 168]
-#syn0 += [[1.0] * 168]
-#syn0 += [[1.0] * 168]
-#syn0 += [[1.0] * 168]
-#syn0 += [[1.0] * 168]
 
 best_weights_ever = train([X,y], weights=syn0, iters=5000)
 
