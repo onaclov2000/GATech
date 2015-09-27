@@ -1,6 +1,7 @@
 import numpy as np
 from numpy import genfromtxt
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
+from random import random
 
 # thanks to this site for the basis of the code
 #http://iamtrask.github.io/2015/07/12/basic-python-network/
@@ -80,8 +81,69 @@ def test(data, weights):
 def weight_training(data, training):
 	return test(data, training)[2]
 
-
-def randomized_hill_climb(func, data):
+def randomized_hill_climb(func, data, targetScore, initialPoint=[0,0,0,0,0], initialStepSizes=[1,1,1,1,1], someAcceleration=1.2):
+#from https://en.wikipedia.org/wiki/Hill_climbing	
+#Continuous Space Hill Climbing Algorithm
+   restarts = 0
+   steps = 0
+   currentPoint = 2*np.random.random((5,1)) - 1    # the zero-magnitude vector is common
+   print "Setting Initial Weights"
+   print currentPoint
+   stepSize = initialStepSizes      # a vector of all 1's is common
+   acceleration = someAcceleration # a value such as 1.2 is common
+   candidate = [-acceleration, -1 / acceleration, 0, 1 / acceleration, acceleration]
+   epsilon = .001
+   while(1):
+      steps = steps + 1
+      before = func(data, currentPoint)
+      for i in range(len(currentPoint)):
+         best = -1
+         bestScore = 0.0
+         for j in range(4):         # try each of 5 candidate locations
+            currentPoint[i][0] = currentPoint[i][0] + stepSize[i] * candidate[j]
+            temp = func(data, currentPoint)
+            currentPoint[i][0] = currentPoint[i][0] - stepSize[i] * candidate[j]
+            if(temp > bestScore):
+                 bestScore = temp
+                 best = j
+         if candidate[best] is not 0:
+            currentPoint[i][0] = currentPoint[i][0] + stepSize[i] * candidate[best]
+            stepSize[i] = stepSize[i] * candidate[best] # accelerate
+      if (func(data, currentPoint) - before) < epsilon: 
+         if (bestScore < targetScore):
+            currentPoint = 2*np.random.random((5,1)) - 1 
+            restarts = restarts + 1
+            print "Selecting new random weights, last one only got us so far time for a random walk"			
+            print currentPoint
+         else:
+            return [currentPoint, bestScore, restarts, steps]
+      else:
+         print [currentPoint, "bestScore: " + str(bestScore)]
+		 
+		 
+def acceptance_probability():
+   print "1"
+   
+def anneal(func, data, ):
+    old_cost = func(sol)
+    T = 1.0
+    T_min = 0.00001
+    alpha = 0.9
+    while T > T_min:
+        i = 1
+        while i <= 100:
+            new_sol = neighbor(sol)
+            new_cost = func(new_sol)
+            ap = acceptance_probability(old_cost, new_cost, T)
+            if ap > random():
+                sol = new_sol
+                old_cost = new_cost
+            i += 1
+        T = T*alpha
+    return sol, cost
+	
+# this is a random restart, no actual hill climb per se.
+def randomized_restart(func, data):
 	we = 2*np.random.random((5,1)) - 1
 	# first opportunity
 	result = func(data, we)
@@ -91,7 +153,7 @@ def randomized_hill_climb(func, data):
 	result_list = []
 	result_list.append(result)
 	
-	while (result < .86):
+	while (result < .875):
 		old_result = 0.0
 		# Here we're climbing a hill
 		while (old_result < result):
@@ -144,19 +206,22 @@ syn0 = 2*np.random.random((5,1)) - 1
 # if the results are good enough, then we're kinda done.
 # so basically comment out the following line
 # however I'd like to compare to the other options, so let's just let it go wild
-best_weights_ever = train([X,y], weights=syn0, iters=5000)
+#best_weights_ever = train([X,y], weights=syn0, iters=5000)
 # and we do some weight training instead
 
-hc_best_weights_ever = randomized_hill_climb(weight_training, [X,y])
+rhc_best_weights_ever = randomized_hill_climb(weight_training, [X,y], .875)
+
 #sa_best_weights_ever = simulated_annealing(weight_training, [X,y])
 #ga_best_weights_ever = genetic_algorithm(weight_training, [X,y])
 
-print hc_best_weights_ever[1] # number of iterations to find this result
-print hc_best_weights_ever[2] # best result found (if we exit before count interrupts it should be at or over .85)
-#plt.plot(hc_best_weights_ever[3])
-#plt.ylabel('some numbers')
-#plt.show()
-print test([I,O], weights=hc_best_weights_ever[0])[2]
+#print rhc_best_weights_ever[1] # number of iterations to find this result
+#print rhc_best_weights_ever[2] # best result found (if we exit before count interrupts it should be at or over .85)
+
+print test([I,O], weights=rhc_best_weights_ever[0])[2]
 #print test([I[1400],O[1400]], weights=sa_best_weights_ever)
 #print test([I[1400],O[1400]], weights=ga_best_weights_ever)
-print test([I[1400],O[1400]], weights=best_weights_ever)[2]
+#print test([I[1400],O[1400]], weights=best_weights_ever)[2]
+#print hc_best_weights_ever[3]
+# plt.plot(hc_best_weights_ever[3])
+# plt.ylabel('some numbers')
+# plt.show()
