@@ -1,3 +1,4 @@
+import time
 from loader import Loader
 from matplotlib.colors import ListedColormap
 import numpy as np
@@ -176,12 +177,15 @@ centers = [[1, 1], [-1, -1], [1, -1]]
     # Apply the dimensionality reduction algorithms to one of your datasets from assignment #1 (if you've reused the datasets from assignment #1 to do experiments 1-3 above then you've already done this) and rerun your neural network learner on the newly projected data.
     # Apply the clustering algorithms to the same dataset to which you just applied the dimensionality reduction algorithms (you've probably already done this), treating the clusters as if they were new features. In other words, treat the clustering algorithms as if they were dimensionality reduction algorithms. Again, rerun your neural network learner on the newly projected data.
 
+start = time.time()
 print "Standardize Data"
 stdsc = StandardScaler()
 X_scaled = stdsc.fit_transform(X)
 X_test_scaled = stdsc.transform(X_test)
 gmm_results('GMM Curious George Standardized Data, No Feature Selection',[X_scaled,y], [X_test_scaled, y_test])
-
+end = time.time()
+print end - start
+start = time.time()
 print "Apply the dimensionality reduction algorithms to the two datasets and describe what you see."
 stdsc = StandardScaler()
 pca = decomposition.PCA(n_components=2)
@@ -190,7 +194,9 @@ X_test_pca = stdsc.transform(X_test)
 X_pca = pca.fit_transform(X_pca)
 X_test_pca = pca.transform(X_test_pca)
 gmm_results('GMM Curious George PCA Feature Selection ', [X_pca,y], [X_test_pca, y_test])   
-
+end = time.time()
+print end - start
+start = time.time()
 
 print "Fast ICA Data "
 stdsc = StandardScaler()
@@ -200,6 +206,9 @@ X_test_ica = stdsc.transform(X_test)
 X_ica = ica.fit_transform(X_ica)
 X_test_ica = ica.transform(X_test_ica)
 gmm_results('GMM Curious George ICA Feature Selection', [X_ica,y], [X_test_ica, y_test])
+end = time.time()
+print end - start
+start = time.time()
 
 print "Random Projection Data components"
 stdsc = StandardScaler()
@@ -209,6 +218,9 @@ X_test_rp = stdsc.transform(X_test)
 X_rp = rp.fit_transform(X_rp)
 X_test_rp = rp.transform(X_test_rp)
 gmm_results('GMM Curious George RP Feature Selection', [X_rp,y], [X_test_rp, y_test])
+end = time.time()
+print end - start
+start = time.time()
 
 print "Kernel PCA Data components"
 stdsc = StandardScaler()
@@ -218,6 +230,9 @@ X_test_pca = stdsc.transform(X_test)
 X_pca = pca.fit_transform(X_pca)
 X_test_pca = pca.transform(X_test_pca)
 gmm_results('GMM Curious George Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test])
+end = time.time()
+print end - start
+start = time.time()
 
 print "Random PCA Data components"
 stdsc = StandardScaler()
@@ -227,3 +242,6 @@ X_test_pca = stdsc.transform(X_test)
 X_pca = pca.fit_transform(X_pca)
 X_test_pca = pca.transform(X_test_pca)
 gmm_results('GMM Curious George Random PCA Feature Selection', [X_pca,y], [X_test_pca, y_test])
+end = time.time()
+print end - start
+
