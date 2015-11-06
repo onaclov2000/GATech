@@ -116,8 +116,11 @@ def gmm_results(title, A, B):
         classifier.means_ = np.array([X_train[y_train == i].mean(axis=0)
                                       for i in xrange(n_classes)])
 
+        start = time.time()
         # Train the other parameters using the EM algorithm.
         classifier.fit(X_train)
+        end = time.time()
+        print 'Fit Time: ' + str(end - start)
 
         h = plt.subplot(2, n_classifiers / 2, index + 1)
         make_ellipses(classifier, h)
@@ -133,12 +136,14 @@ def gmm_results(title, A, B):
         y_train_pred = classifier.predict(X_train)
         ld.save_data('datasets/' + name.replace(' ', '_') + '_train.csv', [y_train_pred,y_train])
         train_accuracy = np.mean(y_train_pred.ravel() == y_train.ravel()) * 100
+        print 'Train Accuracy' + str(train_accuracy)
         plt.text(0.05, 0.9, 'Train accuracy: %.1f' % train_accuracy,
                  transform=h.transAxes)
 
         y_test_pred = classifier.predict(X_test)
         ld.save_data('datasets/' + name.replace(' ', '_') + '_test.csv', [y_test_pred, y_test])
         test_accuracy = np.mean(y_test_pred.ravel() == y_test.ravel()) * 100
+        print 'Test Accuracy' + str(test_accuracy)
         plt.text(0.05, 0.8, 'Test accuracy: %.1f' % test_accuracy,
                  transform=h.transAxes)
 

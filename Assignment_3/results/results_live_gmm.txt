@@ -1,0 +1,36 @@
+Standardize Data
+Fit Time: 1.47110700607
+Fit Time: 1.49066710472
+Fit Time: 100.945841074
+Fit Time: 33.8197522163
+140.762375832
+Apply the dimensionality reduction algorithms to the two datasets and describe what you see.
+0.915954113007
+Fit Time: 0.0106420516968
+Fit Time: 0.00912499427795
+Fit Time: 0.0128591060638
+Fit Time: 0.0284521579742
+Fast ICA Data 
+0.981732130051
+Fit Time: 0.00547695159912
+Fit Time: 0.00527000427246
+Fit Time: 0.00738310813904
+Fit Time: 0.00521206855774
+Random Projection Data components
+0.0299911499023
+Fit Time: 0.0114002227783
+Fit Time: 0.00808191299438
+Fit Time: 0.0136060714722
+Fit Time: 0.00533890724182
+Kernel PCA Data components
+9.6489238739
+Fit Time: 0.0109031200409
+Fit Time: 0.00914597511292
+Fit Time: 0.0129051208496
+Fit Time: 0.0285279750824
+Random PCA Data components
+0.295442819595
+Fit Time: 0.0108289718628
+Fit Time: 0.00928592681885
+Fit Time: 0.0133030414581
+Fit Time: 0.028510093689

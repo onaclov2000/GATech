@@ -1,0 +1,174 @@
+Run the clustering algorithms on the data sets and describe what you see.
+Fit Time: 0.0299589633942
+Accuracy Score
+0.65022200296
+Classification Report
+             precision    recall  f1-score   support
+
+        0.0       0.75      0.73      0.74      1373
+        1.0       0.46      0.49      0.47       654
+
+avg / total       0.66      0.65      0.65      2027
+
+Confusion Matrix
+[[1000  373]
+ [ 336  318]]
+Completeness Score
+0.0341612743598
+Homogeneity Score
+0.0348556738846
+Homogeneity Completeness V Measured
+(0.034855673884588732, 0.034161274359827069, 0.034504980844743058)
+Mutual Information Score
+0.0219188725063
+Normalized Mutual Info Score
+0.0345067274393
+Silhouette Score
+0.523085201364
+Silhouette Samples
+[ 0.40171462  0.73144421  0.31694918 ...,  0.26424061  0.06765503
+  0.33200248]
+V Measure Score
+0.0345049808447
+2027
+2027
+Train K Means Confusion Matrix
+a    b
+--------
+1000 336 a 0.748502994012
+373  318 b 0.46020260492
+Accuracy: 0.65022200296
+1799
+1799
+Test K Means Confusion Matrix
+a   b
+-------
+470 239 a 0.662905500705
+910 180 b 0.165137614679
+Accuracy: 0.361311839911
+Standardize Data
+0.000838994979858
+Fit Time: 0.0288689136505
+Accuracy Score
+0.640848544647
+Classification Report
+             precision    recall  f1-score   support
+
+        0.0       0.74      0.73      0.73      1373
+        1.0       0.44      0.45      0.45       654
+
+avg / total       0.64      0.64      0.64      2027
+
+Confusion Matrix
+[[1007  366]
+ [ 362  292]]
+Completeness Score
+0.0250208241854
+Homogeneity Score
+0.0250787018234
+Homogeneity Completeness V Measured
+(0.02507870182337419, 0.025020824185426924, 0.025049729572737212)
+Mutual Information Score
+0.015770656729
+Normalized Mutual Info Score
+0.0250497462886
+Silhouette Score
+0.447510293002
+Silhouette Samples
+[ 0.35889609  0.62192924  0.2395718  ...,  0.21276721  0.02972545
+  0.23156302]
+V Measure Score
+0.0250497295727
+2027
+2027
+Train K Means Confusion Matrix
+a    b
+--------
+1007 362 a 0.735573411249
+366  292 b 0.44376899696
+Accuracy: 0.640848544647
+1799
+1799
+Test K Means Confusion Matrix
+a   b
+-------
+478 260 a 0.647696476965
+902 159 b 0.14985862394
+Accuracy: 0.354085603113
+Apply the dimensionality reduction algorithms to the two datasets and describe what you see.
+Get Explained Variance
+[ 0.45712232  0.30971392  0.23181692  0.00134683  0.        ]
+0.192312002182
+0.00143504142761
+Fit Time: 0.0312368869781
+Accuracy Score
+0.643315244203
+Classification Report
+             precision    recall  f1-score   support
+
+        0.0       0.74      0.73      0.74      1373
+        1.0       0.45      0.45      0.45       654
+
+avg / total       0.64      0.64      0.64      2027
+
+Confusion Matrix
+[[1007  366]
+ [ 357  297]]
+Completeness Score
+0.0270086519525
+Homogeneity Score
+0.0271481500839
+Homogeneity Completeness V Measured
+(0.027148150083891334, 0.027008651952481748, 0.027078221357202739)
+Mutual Information Score
+0.0170720222607
+Normalized Mutual Info Score
+0.0270783111875
+Silhouette Score
+0.505056600135
+Silhouette Samples
+[ 0.4040208   0.66865272  0.24545344 ...,  0.27317115  0.02722896
+  0.30846889]
+V Measure Score
+0.0270782213572
+2027
+2027
+Train K Means Confusion Matrix
+a    b
+--------
+1007 357 a 0.738269794721
+366  297 b 0.447963800905
+Accuracy: 0.643315244203
+1799
+1799
+Test K Means Confusion Matrix
+a   b
+-------
+476 259 a 0.647619047619
+904 160 b 0.15037593985
+Accuracy: 0.353529738744
+Fast ICA Data 
+[[ 0.01051305 -0.01203254 -0.00273538  0.00449437  0.        ]
+ [-0.00612693 -0.00727141  0.01286345  0.01136489  0.        ]]
+[[ 39.89772088 -40.48317762 -14.46860316  11.98403342   0.        ]
+ [-19.95068652 -14.78717092  34.8723915   28.3030199    0.        ]]
+0.0248348712921
+Fit Time: 0.0292599201202
+Accuracy Score
+0.373458312778
+Classification Report
+             precision    recall  f1-score   support
+
+        0.0       0.58      0.28      0.38      1373
+        1.0       0.27      0.57      0.37       654
+
+avg / total       0.48      0.37      0.37      2027
+
+Confusion Matrix
+[[382 991]
+ [279 375]]
+Completeness Score
+0.0169962118554
+Homogeneity Score
+0.0170646984623
+Homogeneity Completeness 

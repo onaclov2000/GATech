@@ -1,0 +1,60 @@
+Standardize Data
+Train Accuracy59.5954612728
+Test Accuracy34.1856586993
+Train Accuracy69.4622594968
+Test Accuracy39.855475264
+Train Accuracy73.260976813
+Test Accuracy72.1511951084
+Train Accuracy77.7503700049
+Test Accuracy75.7643135075
+41.1008419991
+Apply the dimensionality reduction algorithms to the two datasets and describe what you see.
+Train Accuracy61.4701529354
+Test Accuracy33.2962757087
+Train Accuracy65.416872225
+Test Accuracy34.35241801
+Train Accuracy76.1716822891
+Test Accuracy79.766536965
+Train Accuracy78.0957079428
+Test Accuracy72.9294052251
+40.8230412006
+Fast ICA Data 
+Train Accuracy67.7355698076
+Test Accuracy76.709282935
+Train Accuracy69.3142575234
+Test Accuracy79.4330183435
+Train Accuracy69.7582634435
+Test Accuracy79.9332962757
+Train Accuracy72.5209669462
+Test Accuracy80.989438577
+41.0941300392
+Random Projection Data components
+Train Accuracy56.1420818944
+Test Accuracy30.1278488049
+Train Accuracy54.7113961519
+Test Accuracy27.7376320178
+Train Accuracy73.1623088308
+Test Accuracy83.9355197332
+Train Accuracy76.3196842625
+Test Accuracy64.6470261256
+42.6603569984
+Kernel PCA Data components
+Train Accuracy61.4701529354
+Test Accuracy33.2962757087
+Train Accuracy65.416872225
+Test Accuracy34.35241801
+Train Accuracy76.1716822891
+Test Accuracy79.766536965
+Train Accuracy78.0957079428
+Test Accuracy72.9294052251
+41.9108421803
+Random PCA Data components
+Train Accuracy61.4701529354
+Test Accuracy33.2962757087
+Train Accuracy65.416872225
+Test Accuracy34.35241801
+Train Accuracy76.1716822891
+Test Accuracy79.766536965
+Train Accuracy78.0957079428
+Test Accuracy72.9294052251
+41.6005699635

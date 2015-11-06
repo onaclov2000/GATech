@@ -1,3 +1,4 @@
+import time
 from loader import Loader
 from matplotlib.colors import ListedColormap
 import numpy as np
@@ -110,14 +111,16 @@ def gmm_results(title, A, B):
 
 
     for index, (name, classifier) in enumerate(classifiers.items()):
+        
         # Since we have class labels for the training data, we can
         # initialize the GMM parameters in a supervised manner.
         classifier.means_ = np.array([X_train[y_train == i].mean(axis=0)
                                       for i in xrange(n_classes)])
-
+        start = time.time()
         # Train the other parameters using the EM algorithm.
         classifier.fit(X_train)
-
+        end = time.time()
+        print 'Fit Time: ' + str(end - start)
         h = plt.subplot(2, n_classifiers / 2, index + 1)
         make_ellipses(classifier, h)
 
@@ -131,11 +134,13 @@ def gmm_results(title, A, B):
 
         y_train_pred = classifier.predict(X_train)
         train_accuracy = np.mean(y_train_pred.ravel() == y_train.ravel()) * 100
+        print "Train Accuracy: " + str(train_accuracy)
         plt.text(0.05, 0.9, 'Train accuracy: %.1f' % train_accuracy,
                  transform=h.transAxes)
 
         y_test_pred = classifier.predict(X_test)
         test_accuracy = np.mean(y_test_pred.ravel() == y_test.ravel()) * 100
+        print "Test Accuracy: " + str(test_accuracy)
         plt.text(0.05, 0.8, 'Test accuracy: %.1f' % test_accuracy,
                  transform=h.transAxes)
 
@@ -174,12 +179,17 @@ centers = [[1, 1], [-1, -1], [1, -1]]
     # Apply the dimensionality reduction algorithms to one of your datasets from assignment #1 (if you've reused the datasets from assignment #1 to do experiments 1-3 above then you've already done this) and rerun your neural network learner on the newly projected data.
     # Apply the clustering algorithms to the same dataset to which you just applied the dimensionality reduction algorithms (you've probably already done this), treating the clusters as if they were new features. In other words, treat the clustering algorithms as if they were dimensionality reduction algorithms. Again, rerun your neural network learner on the newly projected data.
 
+
+start = time.time()
 print "Standardize Data"
 stdsc = StandardScaler()
 X_scaled = stdsc.fit_transform(X)
 X_test_scaled = stdsc.transform(X_test)
 gmm_results('GMM Live Standardized Data, No Feature Selection',[X_scaled,y], [X_test_scaled, y_test])
+end = time.time()
+print end - start
 
+start = time.time()
 print "Apply the dimensionality reduction algorithms to the two datasets and describe what you see."
 stdsc = StandardScaler()
 pca = decomposition.PCA(n_components=2)
@@ -187,9 +197,12 @@ X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
 X_pca = pca.fit_transform(X_pca)
 X_test_pca = pca.transform(X_test_pca)
+end = time.time()
+print end - start
+
 gmm_results('GMM Live PCA Feature Selection ', [X_pca,y], [X_test_pca, y_test])   
 
-
+start = time.time()
 print "Fast ICA Data "
 stdsc = StandardScaler()
 ica = decomposition.FastICA(n_components=2)
@@ -197,8 +210,13 @@ X_ica = stdsc.fit_transform(X)
 X_test_ica = stdsc.transform(X_test)
 X_ica = ica.fit_transform(X_ica)
 X_test_ica = ica.transform(X_test_ica)
+end = time.time()
+print end - start
+
 gmm_results('GMM Live ICA Feature Selection', [X_ica,y], [X_test_ica, y_test])
 
+
+start = time.time()
 print "Random Projection Data components"
 stdsc = StandardScaler()
 rp = random_projection.GaussianRandomProjection(n_components=2)
@@ -206,8 +224,11 @@ X_rp = stdsc.fit_transform(X)
 X_test_rp = stdsc.transform(X_test)
 X_rp = rp.fit_transform(X_rp)
 X_test_rp = rp.transform(X_test_rp)
+end = time.time()
+print end - start
 gmm_results('GMM Live RP Feature Selection', [X_rp,y], [X_test_rp, y_test])
 
+start = time.time()
 print "Kernel PCA Data components"
 stdsc = StandardScaler()
 pca = decomposition.KernelPCA(n_components=2)
@@ -215,8 +236,14 @@ X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
 X_pca = pca.fit_transform(X_pca)
 X_test_pca = pca.transform(X_test_pca)
+end = time.time()
+print end - start
+
+
 gmm_results('GMM Live Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test])
 
+
+start = time.time()
 print "Random PCA Data components"
 stdsc = StandardScaler()
 pca = decomposition.RandomizedPCA(n_components=2)
@@ -224,4 +251,9 @@ X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
 X_pca = pca.fit_transform(X_pca)
 X_test_pca = pca.transform(X_test_pca)
+end = time.time()
+print end - start
+
 gmm_results('GMM Live Random PCA Feature Selection', [X_pca,y], [X_test_pca, y_test])
+
+
