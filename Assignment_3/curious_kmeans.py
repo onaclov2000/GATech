@@ -10,6 +10,7 @@ from sklearn import decomposition
 from sklearn import datasets
 from sklearn import random_projection
 from sklearn import mixture
+import scipy.stats
 import itertools
 # works for binary classification (A,B)
 def print_results(data):
@@ -66,7 +67,7 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     Y_kmeans = k_means.predict(X)
     ld.save_data('datasets/' + name.replace(' ', '_') + '_train.csv', [Y_kmeans,y])
     # print Y_kmeans
-    plt.figure()
+    figure_identifier = plt.figure()
     colors = ['yellow', 'cyan']
     if colormap:
         cmap_light = ListedColormap(['#FF3EFA', '#AAFFAA'])
@@ -88,7 +89,8 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     plt.title(name + ' Train Results')
 #    plt.show()
     plt.savefig('figures/' + name.replace(' ', '_') + '_Training_results.png')
-    plt.clf()
+    figure_identifier.clf()
+    plt.close(figure_identifier)
 
     y_pred = Y_kmeans
     y_true = y
@@ -117,7 +119,7 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     print metrics.v_measure_score(y_true,y_pred)
 
     print_confusion_matrix('Train', Y_kmeans, y)
-    
+    figure_identifier = plt.figure()
     Y_kmeans = k_means.predict(X_test)
     ld.save_data('datasets/' + name.replace(' ', '_') + '_test.csv', [Y_kmeans,y_test])
     colors = ['yellow', 'cyan']
@@ -142,6 +144,8 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
 #    plt.show()
     plt.savefig('figures/' + name.replace(' ', '_') + '_Test_results.png')
     print_confusion_matrix('Test', Y_kmeans, y_test)    
+    figure_identifier.clf()
+    plt.close(figure_identifier)
 
 def split_data(a,i,n):
     x = []
@@ -153,7 +157,7 @@ def split_data(a,i,n):
 
 def plot_scatter(name,classifier,X_pca, y_digits, x_label, y_label):
     colors = ['yellow', 'cyan']
-    plt.figure('')
+    figure_identifier = plt.figure()
     for i in xrange(len(colors)):
         px = X_pca[:, 0][y_digits == i]
         py = X_pca[:, 1][y_digits == i]
@@ -162,7 +166,8 @@ def plot_scatter(name,classifier,X_pca, y_digits, x_label, y_label):
     plt.ylabel(y_label)
     plt.title(name)
     plt.savefig('figures/' + name.replace(' ', '_') + classifier + '.png')
-
+    figure_identifier.clf()
+    plt.close(figure_identifier)
     
     
 ld = Loader()
@@ -252,6 +257,23 @@ ld.save_data('datasets/Curious_George_test_features_pca_components.csv', [X_test
 
 
 
+#print "Fast ICA Data Kurtosis Test"
+#stdsc = StandardScaler()
+#ica = decomposition.FastICA()
+#X_ica = stdsc.fit_transform(X)
+#X_test_ica = stdsc.transform(X_test)
+#start = time.time()
+#X_ica = ica.fit_transform(X_ica)
+#end = time.time()
+#print "Fit Time: " + str(end - start)
+#independent_components = ica.components_[scipy.stats.kurtosistest(ica.components_)[1] < 0.05] # getting the components which are 
+#print 'Kurtosis'
+#print independent_components
+#print 'Independent components'
+#print ica.components_
+#print 'ICA Mixing'
+#print ica.mixing_.T
+
 print "Fast ICA Data "
 stdsc = StandardScaler()
 ica = decomposition.FastICA(n_components=2)
@@ -261,8 +283,9 @@ start = time.time()
 X_ica = ica.fit_transform(X_ica)
 end = time.time()
 print "Fit Time: " + str(end - start)
-
+print 'Independent components'
 print ica.components_
+print 'ICA Mixing'
 print ica.mixing_.T
 X_test_ica = ica.transform(X_test_ica)
 

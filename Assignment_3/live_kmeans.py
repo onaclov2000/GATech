@@ -91,7 +91,7 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     print 'V Measure Score'
     print metrics.v_measure_score(y_true,y_pred)
 
-    plt.figure()
+    figure_identifier = plt.figure()
     colors = ['yellow', 'cyan']
     if colormap:
         cmap_light = ListedColormap(['#FF3EFA', '#AAFFAA'])
@@ -113,10 +113,11 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     plt.title(name + ' Train Results')
 #    plt.show()
     plt.savefig('figures/' + name.replace(' ', '_') + '_Training_results.png')
-    plt.clf()
+    figure_identifier.clf()
+    plt.close(figure_identifier)
     
     print_confusion_matrix('Train', Y_kmeans, y)
-    
+    figure_identifier = plt.figure()
     Y_kmeans = k_means.predict(X_test)
     colors = ['yellow', 'cyan']
     if colormap:
@@ -140,6 +141,8 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
 #    plt.show()
     plt.savefig('figures/' + name.replace(' ', '_') + '_Test_results.png')
     print_confusion_matrix('Test', Y_kmeans, y_test)    
+    figure_identifier.clf()
+    plt.close(figure_identifier)
 
 def split_data(a,i,n):
     x = []
@@ -151,7 +154,7 @@ def split_data(a,i,n):
 
 def plot_scatter(name,classifier,X_pca, y_digits, x_label, y_label):
     colors = ['yellow', 'cyan']
-    plt.figure('')
+    figure_identifier = plt.figure()
     for i in xrange(len(colors)):
         px = X_pca[:, 0][y_digits == i]
         py = X_pca[:, 1][y_digits == i]
@@ -160,7 +163,8 @@ def plot_scatter(name,classifier,X_pca, y_digits, x_label, y_label):
     plt.ylabel(y_label)
     plt.title(name)
     plt.savefig('figures/' + name.replace(' ', '_') + classifier + '.png')
-
+    figure_identifier.clf()
+    plt.close(figure_identifier)
     
     
 ld = Loader()
@@ -188,28 +192,31 @@ centers = [[1, 1], [-1, -1], [1, -1]]
     # Apply the dimensionality reduction algorithms to one of your datasets from assignment #1 (if you've reused the datasets from assignment #1 to do experiments 1-3 above then you've already done this) and rerun your neural network learner on the newly projected data.
     # Apply the clustering algorithms to the same dataset to which you just applied the dimensionality reduction algorithms (you've probably already done this), treating the clusters as if they were new features. In other words, treat the clustering algorithms as if they were dimensionality reduction algorithms. Again, rerun your neural network learner on the newly projected data.
 
-start = time.time()
 print "Run the clustering algorithms on the data sets and describe what you see."
 k_means_results('KMeans Live No Feature Selection', [X,y], [X_test, y_test], '1st Feature', '2nd Feature', colormap = False)
 
 
-start = time.time()
+
 print "Standardize Data"
 stdsc = StandardScaler()
+start = time.time()
 X_scaled = stdsc.fit_transform(X)
-X_test_scaled = stdsc.transform(X_test)
 end = time.time()
-print end - start
+print "Scale time: " + str(end - start)
+X_test_scaled = stdsc.transform(X_test)
+
 k_means_results('KMeans Live Standardized Data, No Feature Selection', [X_scaled,y], [X_test_scaled, y_test], '1st Feature', '2nd Feature', colormap = False)
 
 
-start = time.time()
 print "Apply the dimensionality reduction algorithms to the two datasets and describe what you see."
 stdsc = StandardScaler()
 print "Get Explained Variance"
 pca = decomposition.PCA()
 X_pca = stdsc.fit_transform(X)
+start = time.time()
 pca.fit(X_pca)
+end = time.time()
+print "Fit time: " + str(end - start)
 plt.figure('Explained Variance')
 plt.plot(pca.explained_variance_ratio_ )
 print (pca.explained_variance_ratio_ )
@@ -217,34 +224,34 @@ plt.xlabel('Component Number')
 plt.ylabel('Percent variance')
 plt.title('Live PCA Explained Variance')
 plt.savefig('figures/Live_PCA_Explained_Variance.png')
-end = time.time()
-print end - start
 
-start = time.time()
+
 stdsc = StandardScaler()
 pca = decomposition.PCA(n_components=2)
 X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
+start = time.time()
 X_pca = pca.fit_transform(X_pca)
-X_test_pca = pca.transform(X_test_pca)
 end = time.time()
-print end - start
+print "Fit time: " + str(end - start)
+X_test_pca = pca.transform(X_test_pca)
+
 
 k_means_results('KMeans Live PCA Feature Selection ' + str(2), [X_pca,y], [X_test_pca, y_test], '1st Principal Component', '2nd Principal Component',  colormap = True)
 plot_scatter('KMeans Live Feature Selection ', 'PCA', X_pca, y,  '1st Principal Component', '2nd Principal Component' )
 
-start = time.time()
 print "Fast ICA Data "
 stdsc = StandardScaler()
 ica = decomposition.FastICA(n_components=2)
 X_ica = stdsc.fit_transform(X)
 X_test_ica = stdsc.transform(X_test)
+start = time.time()
 X_ica = ica.fit_transform(X_ica)
+end = time.time()
+print "Fit time: " + str(end - start)
 print ica.components_
 print ica.mixing_.T
 X_test_ica = ica.transform(X_test_ica)
-end = time.time()
-print end - start
 
 k_means_results('KMeans Live ICA Feature Selection', [X_ica,y], [X_test_ica, y_test],  '1st Independent Component', '2nd Independent Component',  colormap = True)
 plot_scatter('KMeans Live Feature Selection ', 'ICA', X_ica, y,  '1st Independent Component', '2nd Independent Component' )
@@ -255,13 +262,13 @@ stdsc = StandardScaler()
 rp = random_projection.GaussianRandomProjection(n_components=2)
 X_rp = stdsc.fit_transform(X)
 X_test_rp = stdsc.transform(X_test)
+start = time.time()
 X_rp = rp.fit_transform(X_rp)
-X_test_rp = rp.transform(X_test_rp)
 end = time.time()
-print end - start
-
+print "Fit time: " + str(end - start)
+X_test_rp = rp.transform(X_test_rp)
 k_means_results('KMeans Live RP Feature Selection', [X_rp,y], [X_test_rp, y_test],  '1st RP Component', '2nd RP Component', colormap = True)
-plot_scatter('KMeans Live Feature Selection ', 'ICA', X_ica, y,  '1st RP Component', '2nd RP Component' )
+plot_scatter('KMeans Live Feature Selection ', 'RP', X_rp, y,  '1st RP Component', '2nd RP Component' )
 
 
 start = time.time()
@@ -270,10 +277,11 @@ stdsc = StandardScaler()
 pca = decomposition.KernelPCA(n_components=2)
 X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
+start = time.time()
 X_pca = pca.fit_transform(X_pca)
-X_test_pca = pca.transform(X_test_pca)
 end = time.time()
-print end - start
+print "Fit time: " + str(end - start)
+X_test_pca = pca.transform(X_test_pca)
 
 k_means_results('KMeans Live Linear Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Kernel Principal Component', '2nd Kernel Principal Component', colormap = True)
 plot_scatter('KMeans Live Feature Selection ', 'Linear Kernel PCA', X_pca, y, '1st Kernel Principal Component', '2nd Kernel Principal Component' )
@@ -287,10 +295,11 @@ stdsc = StandardScaler()
 pca = decomposition.KernelPCA(n_components=2, kernel='poly')
 X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
+start = time.time()
 X_pca = pca.fit_transform(X_pca)
-X_test_pca = pca.transform(X_test_pca)
 end = time.time()
-print end - start
+print "Fit time: " + str(end - start)
+X_test_pca = pca.transform(X_test_pca)
 
 k_means_results('KMeans Live Poly Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Kernel Principal Component', '2nd Kernel Principal Component', colormap = True)
 plot_scatter('KMeans Live Feature Selection ', 'Poly Kernel PCA', X_pca, y, '1st Kernel Principal Component', '2nd Kernel Principal Component' )
@@ -304,10 +313,11 @@ stdsc = StandardScaler()
 pca = decomposition.KernelPCA(n_components=2, kernel='rbf')
 X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
+start = time.time()
 X_pca = pca.fit_transform(X_pca)
-X_test_pca = pca.transform(X_test_pca)
 end = time.time()
-print end - start
+print "Fit time: " + str(end - start)
+X_test_pca = pca.transform(X_test_pca)
 
 k_means_results('KMeans Live Rbf Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Kernel Principal Component', '2nd Kernel Principal Component', colormap = True)
 plot_scatter('KMeans Live Feature Selection ', 'Rbf Kernel PCA', X_pca, y, '1st Kernel Principal Component', '2nd Kernel Principal Component' )
@@ -321,10 +331,11 @@ stdsc = StandardScaler()
 pca = decomposition.KernelPCA(n_components=2, kernel='sigmoid')
 X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
+start = time.time()
 X_pca = pca.fit_transform(X_pca)
-X_test_pca = pca.transform(X_test_pca)
 end = time.time()
-print end - start
+print "Fit time: " + str(end - start)
+X_test_pca = pca.transform(X_test_pca)
 
 k_means_results('KMeans Live Sigmoid Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Kernel Principal Component', '2nd Kernel Principal Component', colormap = True)
 plot_scatter('KMeans Live Feature Selection ', 'Sigmoid Kernel PCA', X_pca, y, '1st Kernel Principal Component', '2nd Kernel Principal Component' )
@@ -338,10 +349,11 @@ stdsc = StandardScaler()
 pca = decomposition.KernelPCA(n_components=2, kernel='cosine')
 X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
+start = time.time()
 X_pca = pca.fit_transform(X_pca)
-X_test_pca = pca.transform(X_test_pca)
 end = time.time()
-print end - start
+print "Fit time: " + str(end - start)
+X_test_pca = pca.transform(X_test_pca)
 
 k_means_results('KMeans Live Cosine Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Kernel Principal Component', '2nd Kernel Principal Component', colormap = True)
 plot_scatter('KMeans Live Feature Selection ', 'Cosine Kernel PCA', X_pca, y, '1st Kernel Principal Component', '2nd Kernel Principal Component' )
@@ -349,16 +361,17 @@ ld.save_data('datasets/Live_train_features_100_percent_Cosine_kernel_pca_compone
 ld.save_data('datasets/Live_test_features_Cosine_kernel_pca_components.csv', [X_test_pca, y_test])
 
 
-start = time.time()
+
 print "Random PCA Data components"
 stdsc = StandardScaler()
 pca = decomposition.RandomizedPCA(n_components=2)
 X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
+start = time.time()
 X_pca = pca.fit_transform(X_pca)
-X_test_pca = pca.transform(X_test_pca)
 end = time.time()
-print end - start
+print "Fit time: " + str(end - start)
+X_test_pca = pca.transform(X_test_pca)
 
 k_means_results('KMeans Live Random PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Random Principal Component', '2nd Random Principal Component', colormap = True)
 plot_scatter('KMeans Live Feature Selection ', 'Random PCA', X_pca, y,  '1st Random Principal Component', '2nd Random Principal Component')

@@ -66,7 +66,7 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     Y_kmeans = k_means.predict(X)
     ld.save_data('datasets/' + name.replace(' ', '_') + '_train.csv', [Y_kmeans,y])
     # print Y_kmeans
-    plt.figure()
+    figure_identifier = plt.figure()
     colors = ['yellow', 'cyan']
     if colormap:
         cmap_light = ListedColormap(['#FF3EFA', '#AAFFAA'])
@@ -88,7 +88,8 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     plt.title(name + ' Train Results')
 #    plt.show()
     plt.savefig('figures/' + name.replace(' ', '_') + '_Training_results.png')
-    plt.clf()
+    figure_identifier.clf()
+    plt.close(figure_identifier)
 
     y_pred = Y_kmeans
     y_true = y
@@ -117,7 +118,7 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     print metrics.v_measure_score(y_true,y_pred)
 
     print_confusion_matrix('Train', Y_kmeans, y)
-    
+    figure_identifier = plt.figure()
     Y_kmeans = k_means.predict(X_test)
     ld.save_data('datasets/' + name.replace(' ', '_') + '_test.csv', [Y_kmeans,y_test])
     colors = ['yellow', 'cyan']
@@ -142,7 +143,8 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
 #    plt.show()
     plt.savefig('figures/' + name.replace(' ', '_') + '_Test_results.png')
     print_confusion_matrix('Test', Y_kmeans, y_test)    
-
+    figure_identifier.clf()
+    plt.close(figure_identifier)
 def split_data(a,i,n):
     x = []
     y = []
@@ -153,7 +155,7 @@ def split_data(a,i,n):
 
 def plot_scatter(name,classifier,X_pca, y_digits, x_label, y_label):
     colors = ['yellow', 'cyan']
-    plt.figure('')
+    figure_identifier = plt.figure()
     for i in xrange(len(colors)):
         px = X_pca[:, 0][y_digits == i]
         py = X_pca[:, 1][y_digits == i]
@@ -162,7 +164,8 @@ def plot_scatter(name,classifier,X_pca, y_digits, x_label, y_label):
     plt.ylabel(y_label)
     plt.title(name)
     plt.savefig('figures/' + name.replace(' ', '_') + classifier + '.png')
-
+    figure_identifier.clf()
+    plt.close(figure_identifier)
     
     
 ld = Loader()
