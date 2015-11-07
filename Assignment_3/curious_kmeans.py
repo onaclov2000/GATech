@@ -51,7 +51,12 @@ def print_confusion_matrix(title, Y_kmeans, y):
     result += str(false_positive) + " " +str(correct - true_positive) +  " b\n"
     print_results (result)
     print "Accuracy: " + str(correct/float((correct + incorrect)))
-    
+
+def flip(a):
+	if a == 0:
+		return 1
+	else:
+		return 0
 def k_means_results(name, A, B, x_label, y_label, colormap):
     X = A[0]
     y = A[1]
@@ -95,7 +100,10 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     y_pred = Y_kmeans
     y_true = y
 
-    print 'Accuracy Score'
+    print 'Train Accuracy Score Default'
+    print metrics.accuracy_score(y_true, y_pred)
+    y_pred = map(flip, Y_kmeans)
+    print 'Train Accuracy Score Flip Labels'
     print metrics.accuracy_score(y_true, y_pred)
     print 'Classification Report'
     print metrics.classification_report(y_true, y_pred)
@@ -121,6 +129,14 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     print_confusion_matrix('Train', Y_kmeans, y)
     figure_identifier = plt.figure()
     Y_kmeans = k_means.predict(X_test)
+    y_pred = Y_kmeans
+    y_true = y_test
+
+    print 'Test Accuracy Score Default'
+    print metrics.accuracy_score(y_true, y_pred)
+    y_pred = map(flip, Y_kmeans)
+    print 'Test Accuracy Score Flip Labels'
+    print metrics.accuracy_score(y_true, y_pred)
     ld.save_data('datasets/' + name.replace(' ', '_') + '_test.csv', [Y_kmeans,y_test])
     colors = ['yellow', 'cyan']
     if colormap:
@@ -202,33 +218,21 @@ centers = [[1, 1], [-1, -1], [1, -1]]
     # Apply the dimensionality reduction algorithms to one of your datasets from assignment #1 (if you've reused the datasets from assignment #1 to do experiments 1-3 above then you've already done this) and rerun your neural network learner on the newly projected data.
     # Apply the clustering algorithms to the same dataset to which you just applied the dimensionality reduction algorithms (you've probably already done this), treating the clusters as if they were new features. In other words, treat the clustering algorithms as if they were dimensionality reduction algorithms. Again, rerun your neural network learner on the newly projected data.
 
-start = time.time()
 print "Run the clustering algorithms on the data sets and describe what you see."
 k_means_results('KMeans Curious George No Feature Selection', [X,y], [X_test, y_test], '1st Feature', '2nd Feature', colormap = False)
-end = time.time()
-print end - start
-start = time.time()
 
-start = time.time()
+
 print "Standardize Data"
 stdsc = StandardScaler()
+start = time.time()
 X_scaled = stdsc.fit_transform(X)
 end = time.time()
 print "Fit Time: " + str(end - start)
 X_test_scaled = stdsc.transform(X_test)
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 k_means_results('KMeans Curious George Standardized Data No Feature Selection', [X_scaled,y], [X_test_scaled, y_test],  '1st Feature', '2nd Feature', colormap = False)
 ld.save_data('datasets/Curious_George_train_features_100_percent_standardize_features.csv', [X_scaled, y])
 ld.save_data('datasets/Curious_George_test_features_standardize_features.csv', [X_test_scaled, y_test])
-end = time.time()
-print end - start
-start = time.time()
 
 
 print "Apply the dimensionality reduction algorithms to the two datasets and describe what you see."
@@ -247,15 +251,10 @@ plt.xlabel('Component Number')
 plt.ylabel('Percent variance')
 plt.title('Curious George PCA Explained Variance')
 plt.savefig('figures/Curious_George_PCA_Explained_Variance.png')
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
+
 ld.save_data('datasets/Curious_George_train_features_100_percent_all_pca_features.csv', [X_scaled, y])
 ld.save_data('datasets/Curious_George_test_features_all_pca_features.csv', [X_test_scaled, y_test])
 
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 
 stdsc = StandardScaler()
 pca = decomposition.PCA(n_components=2)
@@ -267,38 +266,12 @@ X_pca = pca.fit_transform(X_pca)
 end = time.time()
 print "Fit Time: " + str(end - start)
 X_test_pca = pca.transform(X_test_pca)
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
+
 k_means_results('KMeans Curious George PCA Feature Selection ' + str(2), [X_pca,y], [X_test_pca, y_test], '1st Principal Component', '2nd Principal Component', colormap = True)
 plot_scatter('KMeans Curious George Feature Selection ', 'PCA', X_pca, y, '1st Principal Component', '2nd Principal Component' )
 ld.save_data('datasets/Curious_George_train_features_100_percent_pca_components.csv', [X_pca, y])
 ld.save_data('datasets/Curious_George_test_features_pca_components.csv', [X_test_pca, y_test])
-end = time.time()
-print end - start
-start = time.time()
-
-
-#print "Fast ICA Data Kurtosis Test"
-#stdsc = StandardScaler()
-#ica = decomposition.FastICA()
-#X_ica = stdsc.fit_transform(X)
-#X_test_ica = stdsc.transform(X_test)
-#start = time.time()
-#X_ica = ica.fit_transform(X_ica)
-#end = time.time()
-#print "Fit Time: " + str(end - start)
-#independent_components = ica.components_[scipy.stats.kurtosistest(ica.components_)[1] < 0.05] # getting the components which are 
-#print 'Kurtosis'
-#print independent_components
-#print 'Independent components'
-#print ica.components_
-#print 'ICA Mixing'
-#print ica.mixing_.T
 
 print "Fast ICA Data "
 stdsc = StandardScaler()
@@ -314,25 +287,11 @@ print ica.components_
 print 'ICA Mixing'
 print ica.mixing_.T
 X_test_ica = ica.transform(X_test_ica)
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
-
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 k_means_results('KMeans Curious George ICA Feature Selection', [X_ica,y], [X_test_ica, y_test],  '1st Independent Component', '2nd Independent Component',  colormap = True)
 plot_scatter('KMeans Curious George Feature Selection ', 'ICA', X_ica, y, '1st Independent Component', '2nd Independent Component')
 ld.save_data('datasets/Curious_George_train_features_100_percent_independent_components.csv', [X_ica, y])
 ld.save_data('datasets/Curious_George_test_features_independent_components.csv', [X_test_ica, y_test])
-end = time.time()
-print end - start
 
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
-
-=======
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 print "Random Projection Data components"
 stdsc = StandardScaler()
 rp = random_projection.GaussianRandomProjection(n_components=2)
@@ -343,22 +302,11 @@ X_rp = rp.fit_transform(X_rp)
 end = time.time()
 print "Fit Time: " + str(end - start)
 X_test_rp = rp.transform(X_test_rp)
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 k_means_results('KMeans Curious George RP Feature Selection', [X_rp,y], [X_test_rp, y_test],  '1st RP Component', '2nd RP Component', colormap = True)
 plot_scatter('KMeans Curious George Feature Selection ', 'RP', X_rp, y, '1st RP Component', '2nd RP Component')
 ld.save_data('datasets/Curious_George_train_features_100_percent_random_projection.csv', [X_rp, y])
 ld.save_data('datasets/Curious_George_test_features_random_projection.csv', [X_test_rp, y_test])
-end = time.time()
-print end - start
-start = time.time()
-
-
 
 print "Linear Kernel PCA Data components"
 stdsc = StandardScaler()
@@ -370,26 +318,12 @@ X_pca = pca.fit_transform(X_pca)
 end = time.time()
 print "Fit Time: " + str(end - start)
 X_test_pca = pca.transform(X_test_pca)
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 k_means_results('KMeans Curious George Linear Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Kernel Principal Component', '2nd Kernel Principal Component', colormap = True)
 plot_scatter('KMeans Curious George Feature Selection ', 'Linear Kernel PCA', X_pca, y, '1st Kernel Principal Component', '2nd Kernel Principal Component' )
 ld.save_data('datasets/Curious_George_train_features_100_percent_linear_kernel_pca_components.csv', [X_pca, y])
 ld.save_data('datasets/Curious_George_test_features_linear_kernel_pca_components.csv', [X_test_pca, y_test])
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 print "Poly Kernel PCA Data components"
 stdsc = StandardScaler()
 pca = decomposition.KernelPCA(n_components=2, kernel='poly')
@@ -400,25 +334,12 @@ X_pca = pca.fit_transform(X_pca)
 end = time.time()
 print "Fit Time: " + str(end - start)
 X_test_pca = pca.transform(X_test_pca)
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
-
-=======
-end = time.time()
-print end - start
 start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 k_means_results('KMeans Curious George Poly Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Kernel Principal Component', '2nd Kernel Principal Component', colormap = True)
 plot_scatter('KMeans Curious George Feature Selection ', 'Poly Kernel PCA', X_pca, y, '1st Kernel Principal Component', '2nd Kernel Principal Component' )
 ld.save_data('datasets/Curious_George_train_features_100_percent_Poly_kernel_pca_components.csv', [X_pca, y])
 ld.save_data('datasets/Curious_George_test_features_Poly_kernel_pca_components.csv', [X_test_pca, y_test])
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 print "Sigmoid Kernel PCA Data components"
 stdsc = StandardScaler()
 pca = decomposition.KernelPCA(n_components=2, kernel='sigmoid')
@@ -429,20 +350,12 @@ X_pca = pca.fit_transform(X_pca)
 end = time.time()
 print "Fit Time: " + str(end - start)
 X_test_pca = pca.transform(X_test_pca)
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 k_means_results('KMeans Curious George Sigmoid Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Kernel Principal Component', '2nd Kernel Principal Component', colormap = True)
 plot_scatter('KMeans Curious George Feature Selection ', 'Rbf Kernel PCA', X_pca, y, '1st Kernel Principal Component', '2nd Kernel Principal Component' )
 ld.save_data('datasets/Curious_George_train_features_100_percent_Sigmoid_kernel_pca_components.csv', [X_pca, y])
 ld.save_data('datasets/Curious_George_test_features_Sigmoid_kernel_pca_components.csv', [X_test_pca, y_test])
-end = time.time()
-print end - start
-start = time.time()
+
 print "RBF Kernel PCA Data components"
 stdsc = StandardScaler()
 pca = decomposition.KernelPCA(n_components=2, kernel='rbf')
@@ -453,25 +366,12 @@ X_pca = pca.fit_transform(X_pca)
 end = time.time()
 print "Fit Time: " + str(end - start)
 X_test_pca = pca.transform(X_test_pca)
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 k_means_results('KMeans Curious George Rbf Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Kernel Principal Component', '2nd Kernel Principal Component', colormap = True)
 plot_scatter('KMeans Curious George Feature Selection ', 'Rbf Kernel PCA', X_pca, y, '1st Kernel Principal Component', '2nd Kernel Principal Component' )
 ld.save_data('datasets/Curious_George_train_features_100_percent_Rbf_kernel_pca_components.csv', [X_pca, y])
 ld.save_data('datasets/Curious_George_test_features_Rbf_kernel_pca_components.csv', [X_test_pca, y_test])
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 print "Cosine Kernel PCA Data components"
 stdsc = StandardScaler()
 pca = decomposition.KernelPCA(n_components=2, kernel='cosine')
@@ -482,26 +382,12 @@ X_pca = pca.fit_transform(X_pca)
 end = time.time()
 print "Fit Time: " + str(end - start)
 X_test_pca = pca.transform(X_test_pca)
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 k_means_results('KMeans Curious George Cosine Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Kernel Principal Component', '2nd Kernel Principal Component', colormap = True)
 plot_scatter('KMeans Curious George Feature Selection ', 'Cosine Kernel PCA', X_pca, y, '1st Kernel Principal Component', '2nd Kernel Principal Component' )
 ld.save_data('datasets/Curious_George_train_features_100_percent_Cosine_kernel_pca_components.csv', [X_pca, y])
 ld.save_data('datasets/Curious_George_test_features_Cosine_kernel_pca_components.csv', [X_test_pca, y_test])
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-
-
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 print "Random PCA Data components"
 stdsc = StandardScaler()
 pca = decomposition.RandomizedPCA(n_components=2)
@@ -512,21 +398,10 @@ X_pca = pca.fit_transform(X_pca)
 end = time.time()
 print "Fit Time: " + str(end - start)
 X_test_pca = pca.transform(X_test_pca)
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-=======
-end = time.time()
-print end - start
-start = time.time()
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 k_means_results('KMeans Curious George Random PCA Feature Selection', [X_pca,y], [X_test_pca, y_test],  '1st Random Principal Component', '2nd Random Principal Component', colormap = True)
 plot_scatter('KMeans Curious George Feature Selection ', 'Random PCA', X_pca, y, '1st Random Principal Component', '2nd Random Principal Component' )
 ld.save_data('datasets/Curious_George_train_features_100_percent_random_pca_components.csv', [X_pca, y])
 ld.save_data('datasets/Curious_George_test_features_random_pca_components.csv', [X_test_pca, y_test])
-<<<<<<< HEAD:Assignment_3/curious_kmeans.py
 
-=======
-end = time.time()
-print end - start
->>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_kmeans.py
 

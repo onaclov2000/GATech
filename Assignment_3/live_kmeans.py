@@ -50,7 +50,12 @@ def print_confusion_matrix(title, Y_kmeans, y):
     result += str(false_positive) + " " +str(correct - true_positive) +  " b\n"
     print_results (result)
     print "Accuracy: " + str(correct/float((correct + incorrect)))
-    
+def flip(a):
+	if a == 0:
+		return 1
+	else:
+		return 0
+	
 def k_means_results(name, A, B, x_label, y_label, colormap):
     X = A[0]
     y = A[1]
@@ -68,7 +73,10 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     y_pred = Y_kmeans
     y_true = y
 
-    print 'Accuracy Score'
+    print 'Train Accuracy Score Default'
+    print metrics.accuracy_score(y_true, y_pred)
+    y_pred = map(flip, Y_kmeans)
+    print 'Train Accuracy Score Flip Labels'
     print metrics.accuracy_score(y_true, y_pred)
     print 'Classification Report'
     print metrics.classification_report(y_true, y_pred)
@@ -119,6 +127,14 @@ def k_means_results(name, A, B, x_label, y_label, colormap):
     print_confusion_matrix('Train', Y_kmeans, y)
     figure_identifier = plt.figure()
     Y_kmeans = k_means.predict(X_test)
+    y_pred = Y_kmeans
+    y_true = y_test
+
+    print 'Test Accuracy Score Default'
+    print metrics.accuracy_score(y_true, y_pred)
+    y_pred = map(flip, Y_kmeans)
+    print 'Test Accuracy Score Flip Labels'
+    print metrics.accuracy_score(y_true, y_pred)
     colors = ['yellow', 'cyan']
     if colormap:
         cmap_light = ListedColormap(['#FF3EFA', '#AAFFAA'])

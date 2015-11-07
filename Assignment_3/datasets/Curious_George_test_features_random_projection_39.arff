@@ -2,7 +2,7 @@
 
 @attribute Component0 numeric
 @attribute Component1 numeric
-@attribute Component2 numeric
+@attribute type {'0','1'}
 
 
 @data

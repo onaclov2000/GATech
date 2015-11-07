@@ -6,8 +6,9 @@ def convert_to_arff(path):
 	w = open(path[:-3] + 'arff', 'w')
         w.write("@relation whatever\n")
         w.write("\n")
-	for i in range(headers):
+	for i in range(headers-1):
 		w.write("@attribute Component" + str(i) + " numeric\n")
+        w.write("@attribute type {'0','1'}\n")
 	w.write("\n")
 	w.write("\n")
 	w.write("@data\n")
