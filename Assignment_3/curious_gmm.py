@@ -190,8 +190,14 @@ end = time.time()
 X_test_scaled = stdsc.transform(X_test)
 print end - start
 gmm_results('GMM Curious George Standardized Data, No Feature Selection',[X_scaled,y], [X_test_scaled, y_test])
+<<<<<<< HEAD:Assignment_3/curious_gmm.py
 
 
+=======
+end = time.time()
+print end - start
+start = time.time()
+>>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_gmm.py
 print "Apply the dimensionality reduction algorithms to the two datasets and describe what you see."
 stdsc = StandardScaler()
 pca = decomposition.PCA(n_components=2)
@@ -204,7 +210,9 @@ X_test_pca = pca.transform(X_test_pca)
 
 print end - start
 gmm_results('GMM Curious George PCA Feature Selection ', [X_pca,y], [X_test_pca, y_test])   
-
+end = time.time()
+print end - start
+start = time.time()
 
 
 print "Fast ICA Data "
@@ -220,6 +228,9 @@ print end - start
 
 X_test_ica = ica.transform(X_test_ica)
 gmm_results('GMM Curious George ICA Feature Selection', [X_ica,y], [X_test_ica, y_test])
+end = time.time()
+print end - start
+start = time.time()
 
 
 
@@ -234,6 +245,9 @@ end = time.time()
 print end - start
 X_test_rp = rp.transform(X_test_rp)
 gmm_results('GMM Curious George RP Feature Selection', [X_rp,y], [X_test_rp, y_test])
+end = time.time()
+print end - start
+start = time.time()
 
 
 
@@ -248,6 +262,9 @@ end = time.time()
 print end - start
 X_test_pca = pca.transform(X_test_pca)
 gmm_results('GMM Curious George Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test])
+end = time.time()
+print end - start
+start = time.time()
 
 
 
@@ -262,5 +279,10 @@ end = time.time()
 print end - start
 X_test_pca = pca.transform(X_test_pca)
 gmm_results('GMM Curious George Random PCA Feature Selection', [X_pca,y], [X_test_pca, y_test])
+<<<<<<< HEAD:Assignment_3/curious_gmm.py
 
+=======
+end = time.time()
+print end - start
+>>>>>>> a4d491099709dd7fd263850cba606962f9f001b2:Assignment_3/curious_gmm.py
 
