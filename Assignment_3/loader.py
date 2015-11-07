@@ -20,13 +20,13 @@ class Loader:
         return [np.asarray(data), np.asarray(results)]
         
     def save_data(self,path, save):
-        data = list(save[0])
-        results = list(save[1])
+        data = save[0].tolist()
+        results = save[1].tolist()
         f = open(path, 'w')
         for i in range(len(data)):
-                temp = str(data)
-                temp + ',' + str(int(results[i]))
+                temp = str(data[i]).strip('[').strip(']').strip().replace("\s+", ',')
+                temp = temp + ',' + str(int(results[i]))
                 f.write(temp)
                 f.write('\n')            
 
-        return [np.asarray(data), np.asarray(results)]
+        return 

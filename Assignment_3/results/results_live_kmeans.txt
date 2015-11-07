@@ -638,4 +638,213 @@ V Measure Score
 0.125300002516
 3590
 3590
-Train K Mean
+Train K Means Confusion Matrix
+a    b
+--------
+2430 1006 a 0.707217694994
+0    154 b 1.0
+Accuracy: 0.719777158774
+3578
+3578
+Test K Means Confusion Matrix
+a    b
+-------
+2537 949 a 0.72776821572
+1    91 b 0.989130434783
+Accuracy: 0.734488541084
+RBF Kernel PCA Data components
+10.5372190475
+Fit Time: 0.0253551006317
+Accuracy Score
+0.904178272981
+Classification Report
+             precision    recall  f1-score   support
+
+        0.0       0.95      0.91      0.93      2430
+        1.0       0.82      0.90      0.86      1160
+
+avg / total       0.91      0.90      0.91      3590
+
+Confusion Matrix
+[[2204  226]
+ [ 118 1042]]
+Completeness Score
+0.513850322189
+Homogeneity Score
+0.530353984276
+Homogeneity Completeness V Measured
+(0.53035398427552349, 0.51385032218885685, 0.52197173293963595)
+Mutual Information Score
+0.333698054091
+Normalized Mutual Info Score
+0.522036939013
+Silhouette Score
+0.602935185479
+Silhouette Samples
+[ 0.6877702   0.61489423  0.69542394 ...,  0.73624995  0.7320169
+  0.78761259]
+V Measure Score
+0.52197173294
+3590
+3590
+Train K Means Confusion Matrix
+a    b
+---------
+2204 118 a 0.949181739879
+226  1042 b 0.821766561514
+Accuracy: 0.904178272981
+3578
+3578
+Test K Means Confusion Matrix
+a    b
+--------
+1152 156 a 0.880733944954
+1386 884 b 0.389427312775
+Accuracy: 0.569032979318
+Sigmoid Kernel PCA Data components
+9.62121701241
+Fit Time: 0.0341420173645
+Accuracy Score
+0.153203342618
+Classification Report
+             precision    recall  f1-score   support
+
+        0.0       0.14      0.05      0.07      2430
+        1.0       0.16      0.37      0.22      1160
+
+avg / total       0.15      0.15      0.12      3590
+
+Confusion Matrix
+[[ 120 2310]
+ [ 730  430]]
+Completeness Score
+0.367511318626
+Homogeneity Score
+0.319690331974
+Homogeneity Completeness V Measured
+(0.31969033197437413, 0.36751131862592329, 0.34193694195358665)
+Mutual Information Score
+0.201148751314
+Normalized Mutual Info Score
+0.342767874014
+Silhouette Score
+0.554448294141
+Silhouette Samples
+[ 0.71961289  0.70046602  0.71403578 ...,  0.53909093  0.57718966
+  0.47914878]
+V Measure Score
+0.341936941954
+3590
+3590
+Train K Means Confusion Matrix
+a    b
+--------
+120 730 a 0.141176470588
+2310 430 b 0.156934306569
+Accuracy: 0.153203342618
+3578
+3578
+Test K Means Confusion Matrix
+a    b
+--------
+796 640 a 0.554317548747
+1742 400 b 0.186741363212
+Accuracy: 0.334264952487
+Cosine Kernel PCA Data components
+8.89288878441
+Fit Time: 0.031574010849
+Accuracy Score
+0.876880222841
+Classification Report
+             precision    recall  f1-score   support
+
+        0.0       0.88      0.94      0.91      2430
+        1.0       0.86      0.74      0.80      1160
+
+avg / total       0.88      0.88      0.87      3590
+
+Confusion Matrix
+[[2286  144]
+ [ 298  862]]
+Completeness Score
+0.432945782515
+Homogeneity Score
+0.408150385278
+Homogeneity Completeness V Measured
+(0.40815038527753322, 0.43294578251548199, 0.42018260147741582)
+Mutual Information Score
+0.256807704631
+Normalized Mutual Info Score
+0.420365302966
+Silhouette Score
+0.526287853375
+Silhouette Samples
+[ 0.65440563  0.60295     0.66303681 ...,  0.63433775  0.6689051
+  0.56493877]
+V Measure Score
+0.420182601477
+3590
+3590
+Train K Means Confusion Matrix
+a    b
+--------
+2286 298 a 0.884674922601
+144  862 b 0.856858846918
+Accuracy: 0.876880222841
+3578
+3578
+Test K Means Confusion Matrix
+a    b
+--------
+1377 297 a 0.822580645161
+1161 743 b 0.390231092437
+Accuracy: 0.592509782001
+Random PCA Data components
+0.239860057831
+Fit Time: 0.0315821170807
+Accuracy Score
+0.836211699164
+Classification Report
+             precision    recall  f1-score   support
+
+        0.0       0.82      0.97      0.89      2430
+        1.0       0.90      0.56      0.69      1160
+
+avg / total       0.85      0.84      0.82      3590
+
+Confusion Matrix
+[[2356   74]
+ [ 514  646]]
+Completeness Score
+0.373191363655
+Homogeneity Score
+0.297256988568
+Homogeneity Completeness V Measured
+(0.29725698856830035, 0.37319136365497524, 0.33092404672755993)
+Mutual Information Score
+0.187033720102
+Normalized Mutual Info Score
+0.333067171783
+Silhouette Score
+0.627283651493
+Silhouette Samples
+[ 0.78892492  0.77737479  0.78301048 ...,  0.53837615  0.55703673
+  0.32157669]
+V Measure Score
+0.330924046728
+3590
+3590
+Train K Means Confusion Matrix
+a    b
+--------
+2356 514 a 0.820905923345
+74   646 b 0.897222222222
+Accuracy: 0.836211699164
+3578
+3578
+Test K Means Confusion Matrix
+a    b
+--------
+2133 531 a 0.800675675676
+405  509 b 0.556892778993
+Accuracy: 0.738401341532

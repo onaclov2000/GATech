@@ -184,75 +184,86 @@ start = time.time()
 print "Standardize Data"
 stdsc = StandardScaler()
 X_scaled = stdsc.fit_transform(X)
-X_test_scaled = stdsc.transform(X_test)
-gmm_results('GMM Live Standardized Data, No Feature Selection',[X_scaled,y], [X_test_scaled, y_test])
 end = time.time()
 print end - start
+X_test_scaled = stdsc.transform(X_test)
 
-start = time.time()
+gmm_results('GMM Live Standardized Data, No Feature Selection',[X_scaled,y], [X_test_scaled, y_test])
+
+
+
 print "Apply the dimensionality reduction algorithms to the two datasets and describe what you see."
 stdsc = StandardScaler()
 pca = decomposition.PCA(n_components=2)
+
 X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
+start = time.time()
 X_pca = pca.fit_transform(X_pca)
-X_test_pca = pca.transform(X_test_pca)
 end = time.time()
 print end - start
+X_test_pca = pca.transform(X_test_pca)
+
 
 gmm_results('GMM Live PCA Feature Selection ', [X_pca,y], [X_test_pca, y_test])   
 
-start = time.time()
+
 print "Fast ICA Data "
 stdsc = StandardScaler()
 ica = decomposition.FastICA(n_components=2)
 X_ica = stdsc.fit_transform(X)
 X_test_ica = stdsc.transform(X_test)
+start = time.time()
 X_ica = ica.fit_transform(X_ica)
-X_test_ica = ica.transform(X_test_ica)
 end = time.time()
 print end - start
+X_test_ica = ica.transform(X_test_ica)
+
 
 gmm_results('GMM Live ICA Feature Selection', [X_ica,y], [X_test_ica, y_test])
 
 
-start = time.time()
+
 print "Random Projection Data components"
 stdsc = StandardScaler()
 rp = random_projection.GaussianRandomProjection(n_components=2)
 X_rp = stdsc.fit_transform(X)
 X_test_rp = stdsc.transform(X_test)
+start = time.time()
 X_rp = rp.fit_transform(X_rp)
-X_test_rp = rp.transform(X_test_rp)
 end = time.time()
 print end - start
+
+X_test_rp = rp.transform(X_test_rp)
 gmm_results('GMM Live RP Feature Selection', [X_rp,y], [X_test_rp, y_test])
 
-start = time.time()
+
 print "Kernel PCA Data components"
 stdsc = StandardScaler()
 pca = decomposition.KernelPCA(n_components=2)
 X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
+start = time.time()
 X_pca = pca.fit_transform(X_pca)
-X_test_pca = pca.transform(X_test_pca)
 end = time.time()
 print end - start
-
+X_test_pca = pca.transform(X_test_pca)
 
 gmm_results('GMM Live Kernel PCA Feature Selection', [X_pca,y], [X_test_pca, y_test])
 
 
-start = time.time()
+
 print "Random PCA Data components"
 stdsc = StandardScaler()
 pca = decomposition.RandomizedPCA(n_components=2)
 X_pca = stdsc.fit_transform(X)
 X_test_pca = stdsc.transform(X_test)
+start = time.time()
 X_pca = pca.fit_transform(X_pca)
-X_test_pca = pca.transform(X_test_pca)
 end = time.time()
 print end - start
+X_test_pca = pca.transform(X_test_pca)
+
 
 gmm_results('GMM Live Random PCA Feature Selection', [X_pca,y], [X_test_pca, y_test])
 
