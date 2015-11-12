@@ -13,7 +13,7 @@ plt_Y = []
 
 [X, y] = ld.load_data('datasets/train.csv')
 
-for n_clusters in range(1, 30):
+for n_clusters in range(1, 100):
     km = KMeans(n_clusters=n_clusters)
     km.fit(X)
     plt_X.append(n_clusters)
